@@ -1,0 +1,29 @@
+# Dependabot: security updates + routine version bumps.
+# The gradle ecosystem is rooted at "/" only: versions live in
+# gradle/libs.versions.toml and Dependabot follows settings.gradle.kts to every
+# subproject from there. Scanning each module directory separately ("/**") made
+# the updater fail with "No files changed" because the module build files only
+# reference catalog aliases.
+# The github-actions ecosystem watches workflows; directories key does not apply there.
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Compose artifacts must move together with the BOM
+      compose:
+        patterns:
+          - "androidx.compose*"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns:
+          - "*"

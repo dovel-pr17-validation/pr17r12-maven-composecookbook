@@ -1,0 +1,22 @@
+name: Validate Gradle Wrapper
+
+# Verifies the checksums of all checked-in gradle-wrapper.jar files against
+# the official Gradle distribution checksums — a tampered wrapper JAR cannot
+# be spotted in code review.
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Pinned to a commit SHA (third-party action).
+      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
